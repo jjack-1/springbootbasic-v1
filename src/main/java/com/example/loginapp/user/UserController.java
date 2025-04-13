@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -32,6 +33,26 @@ public class UserController {
     public String login(UserRequest.LoginDTO reqDTO) {
         User user = userService.로그인(reqDTO);
         session.setAttribute("sessionUser", user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/user/update-form")
+    public String updateForm() {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+
+        return "user/update-form";
+    }
+
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO reqDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+
+        User updateUser = userService.회원정보수정(reqDTO, sessionUser.getId());
+
+        session.setAttribute("sessionUser", updateUser);
+
         return "redirect:/";
     }
 }

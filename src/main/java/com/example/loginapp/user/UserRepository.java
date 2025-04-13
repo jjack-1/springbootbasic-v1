@@ -24,4 +24,8 @@ public class UserRepository {
     public void save(User entity) {
         em.persist(entity);
     }
+
+    public User findById(Integer id) {
+        return em.find(User.class, id);
+    }
 }

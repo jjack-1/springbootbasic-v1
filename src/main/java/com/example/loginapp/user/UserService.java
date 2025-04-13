@@ -29,4 +29,15 @@ public class UserService {
 
         return user;
     }
+
+    @Transactional
+    public User 회원정보수정(UserRequest.UpdateDTO reqDTO, Integer id) {
+        User user = userRepository.findById(id);
+
+        if (user == null) throw new RuntimeException("회원정보를 찾을 수 없습니다");
+
+        user.update(reqDTO.getPassword(), reqDTO.getEmail());
+
+        return user;
+    }
 }
