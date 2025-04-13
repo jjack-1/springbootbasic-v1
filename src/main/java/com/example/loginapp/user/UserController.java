@@ -1,5 +1,6 @@
 package com.example.loginapp.user;
 
+import com.example.loginapp._core.error.ex.Exception401;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class UserController {
     @GetMapping("/user/update-form")
     public String updateForm() {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+        if (sessionUser == null) throw new Exception401("인증이 필요합니다");
 
         return "user/update-form";
     }
@@ -47,7 +48,7 @@ public class UserController {
     @PostMapping("/user/update")
     public String update(UserRequest.UpdateDTO reqDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new RuntimeException("인증이 필요합니다");
+        if (sessionUser == null) throw new Exception401("인증이 필요합니다");
 
         User updateUser = userService.회원정보수정(reqDTO, sessionUser.getId());
 
