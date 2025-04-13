@@ -19,4 +19,14 @@ public class UserService {
 
         userRepository.save(reqDTO.toEntity());
     }
+
+    public User 로그인(UserRequest.LoginDTO reqDTO) {
+        User user = userRepository.findByUsername(reqDTO.getUsername());
+
+        if (user == null || !(reqDTO.getPassword().equals(user.getPassword()))) {
+            throw new RuntimeException("username 혹은 password가 틀렸습니다");
+        }
+
+        return user;
+    }
 }

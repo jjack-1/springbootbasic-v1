@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/login-form")
     public String loginForm() {
-        return "user/join-form";
+        return "user/login-form";
     }
 
     @PostMapping("/login")
@@ -34,5 +34,4 @@ public class UserController {
         session.setAttribute("sessionUser", user);
         return "redirect:/";
     }
-
 }
